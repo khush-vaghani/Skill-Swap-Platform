@@ -1,0 +1,448 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skill Swap Platform</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest/dist/umd/lucide.js"></script>
+    <style>
+        body { font-family: 'Inter', system-ui, sans-serif; }
+        .btn-primary { @apply bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 px-4 rounded-lg transition-colors duration-200; }
+        .btn-secondary { @apply bg-gray-200 hover:bg-gray-300 text-gray-800 font-medium py-2 px-4 rounded-lg transition-colors duration-200; }
+        .btn-outline { @apply border border-gray-300 hover:border-gray-400 text-gray-700 font-medium py-2 px-4 rounded-lg transition-colors duration-200; }
+        .card { @apply bg-white rounded-lg shadow-sm border border-gray-200 p-6; }
+        .input-field { @apply w-full px-3 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent; }
+    </style>
+</head>
+<body class="bg-gray-50">
+    <!-- Navigation -->
+    <nav class="bg-white shadow-sm border-b border-gray-200">
+        <div class="container mx-auto px-4">
+            <div class="flex justify-between items-center h-16">
+                <div class="flex items-center space-x-2">
+                    <div class="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center">
+                        <span class="text-white font-bold text-sm">S</span>
+                    </div>
+                    <span class="text-xl font-bold text-gray-900">Skill Swap</span>
+                </div>
+                <div class="flex items-center space-x-4">
+                    <button onclick="showPage('home')" class="text-gray-600 hover:text-gray-900 transition-colors">Home</button>
+                    <button onclick="showPage('login')" class="text-gray-600 hover:text-gray-900 transition-colors">Login</button>
+                    <button onclick="showPage('register')" class="btn-primary">Sign Up</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main class="container mx-auto px-4 py-8">
+        <!-- Home Page -->
+        <div id="home-page" class="page">
+            <div class="text-center mb-8">
+                <h1 class="text-4xl font-bold text-gray-900 mb-4">Find Your Perfect Skill Swap</h1>
+                <p class="text-xl text-gray-600 max-w-2xl mx-auto">Connect with people who have the skills you need and offer your expertise in return.</p>
+            </div>
+
+            <!-- Search and Filters -->
+            <div class="card mb-8">
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                    <div class="relative">
+                        <i data-lucide="search" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                        <input type="text" placeholder="Search skills..." class="input-field pl-10" onkeyup="filterUsers()">
+                    </div>
+                    <div class="relative">
+                        <i data-lucide="filter" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                        <select class="input-field pl-10" onchange="filterUsers()">
+                            <option value="">All Availability</option>
+                            <option value="Weekends">Weekends</option>
+                            <option value="Weekdays">Weekdays</option>
+                            <option value="Evenings">Evenings</option>
+                            <option value="Flexible">Flexible</option>
+                        </select>
+                    </div>
+                    <div class="text-sm text-gray-600 flex items-center justify-center">
+                        <span id="user-count">4 users found</span>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Users Grid -->
+            <div id="users-grid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <!-- User cards will be populated by JavaScript -->
+            </div>
+        </div>
+
+        <!-- Login Page -->
+        <div id="login-page" class="page hidden">
+            <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8">
+                    <div>
+                        <div class="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">S</span>
+                        </div>
+                        <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">Sign in to your account</h2>
+                        <p class="mt-2 text-center text-sm text-gray-600">
+                            Or <button onclick="showPage('register')" class="font-medium text-blue-600 hover:text-blue-500">create a new account</button>
+                        </p>
+                    </div>
+
+                    <form class="mt-8 space-y-6" onsubmit="handleLogin(event)">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email address</label>
+                                <div class="mt-1 relative">
+                                    <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="email" id="login-email" required class="input-field pl-10" placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Password</label>
+                                <div class="mt-1 relative">
+                                    <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="password" id="login-password" required class="input-field pl-10" placeholder="Enter your password">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn-primary w-full flex justify-center py-3">Sign in</button>
+                        </div>
+
+                        <div class="text-center">
+                            <p class="text-sm text-gray-600">Demo accounts:</p>
+                            <p class="text-xs text-gray-500 mt-1">Admin: admin@example.com / admin123</p>
+                            <p class="text-xs text-gray-500">User: user@example.com / user123</p>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+
+        <!-- Register Page -->
+        <div id="register-page" class="page hidden">
+            <div class="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
+                <div class="max-w-md w-full space-y-8">
+                    <div>
+                        <div class="mx-auto h-12 w-12 bg-blue-600 rounded-lg flex items-center justify-center">
+                            <span class="text-white font-bold text-lg">S</span>
+                        </div>
+                        <h2 class="mt-6 text-center text-3xl font-bold text-gray-900">Create your account</h2>
+                        <p class="mt-2 text-center text-sm text-gray-600">
+                            Or <button onclick="showPage('login')" class="font-medium text-blue-600 hover:text-blue-500">sign in to your existing account</button>
+                        </p>
+                    </div>
+
+                    <form class="mt-8 space-y-6" onsubmit="handleRegister(event)">
+                        <div class="space-y-4">
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Full Name</label>
+                                <div class="mt-1 relative">
+                                    <i data-lucide="user" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="text" id="register-name" required class="input-field pl-10" placeholder="Enter your full name">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Email address</label>
+                                <div class="mt-1 relative">
+                                    <i data-lucide="mail" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="email" id="register-email" required class="input-field pl-10" placeholder="Enter your email">
+                                </div>
+                            </div>
+                            <div>
+                                <label class="block text-sm font-medium text-gray-700">Password</label>
+                                <div class="mt-1 relative">
+                                    <i data-lucide="lock" class="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-5 h-5"></i>
+                                    <input type="password" id="register-password" required class="input-field pl-10" placeholder="Enter your password">
+                                </div>
+                            </div>
+                        </div>
+
+                        <div>
+                            <button type="submit" class="btn-primary w-full flex justify-center py-3">Create Account</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+
+    <script>
+        // Initialize Lucide icons
+        lucide.createIcons();
+
+        // Mock data
+        const users = [
+            {
+                id: 1,
+                name: 'Sarah Johnson',
+                location: 'New York, NY',
+                skillsOffered: ['JavaScript', 'React', 'Node.js'],
+                skillsWanted: ['Python', 'Machine Learning'],
+                availability: 'Weekends',
+                rating: 4.8
+            },
+            {
+                id: 2,
+                name: 'Mike Chen',
+                location: 'San Francisco, CA',
+                skillsOffered: ['Python', 'Data Analysis', 'SQL'],
+                skillsWanted: ['JavaScript', 'Web Development'],
+                availability: 'Evenings',
+                rating: 4.5
+            },
+            {
+                id: 3,
+                name: 'Emily Davis',
+                location: 'Austin, TX',
+                skillsOffered: ['Graphic Design', 'Photoshop', 'Illustrator'],
+                skillsWanted: ['JavaScript', 'React'],
+                availability: 'Weekdays',
+                rating: 4.9
+            },
+            {
+                id: 4,
+                name: 'Alex Rodriguez',
+                location: 'Miami, FL',
+                skillsOffered: ['Spanish', 'Marketing', 'Content Writing'],
+                skillsWanted: ['Python', 'Data Science'],
+                availability: 'Weekends',
+                rating: 4.2
+            }
+        ];
+
+        let currentUser = null;
+
+        // Page navigation
+        function showPage(pageName) {
+            document.querySelectorAll('.page').forEach(page => page.classList.add('hidden'));
+            document.getElementById(pageName + '-page').classList.remove('hidden');
+            
+            if (pageName === 'home') {
+                renderUsers();
+            }
+        }
+
+        // Render users
+        function renderUsers() {
+            const grid = document.getElementById('users-grid');
+            grid.innerHTML = '';
+            
+            users.forEach(user => {
+                const card = document.createElement('div');
+                card.className = 'card hover:shadow-md transition-shadow';
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="user" class="text-blue-600 w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900">${user.name}</h3>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i data-lucide="map-pin" class="w-4 h-4 mr-1"></i>
+                                    <span>${user.location}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <i data-lucide="star" class="text-yellow-400 w-4 h-4" style="fill: currentColor;"></i>
+                            <span class="text-sm font-medium">${user.rating}</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-1">Offers:</h4>
+                            <div class="flex flex-wrap gap-1">
+                                ${user.skillsOffered.map(skill => 
+                                    `<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">${skill}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-1">Wants:</h4>
+                            <div class="flex flex-wrap gap-1">
+                                ${user.skillsWanted.map(skill => 
+                                    `<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${skill}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+
+                        <div class="text-sm text-gray-600">
+                            <span class="font-medium">Available:</span> ${user.availability}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <div class="flex space-x-2">
+                            <button onclick="viewProfile(${user.id})" class="btn-outline flex-1 text-center">
+                                View Profile
+                            </button>
+                            <button onclick="requestSwap(${user.id})" class="btn-primary flex-1">
+                                Request Swap
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            
+            // Re-initialize icons
+            lucide.createIcons();
+        }
+
+        // Filter users
+        function filterUsers() {
+            const searchTerm = document.querySelector('input[placeholder="Search skills..."]').value.toLowerCase();
+            const availabilityFilter = document.querySelector('select').value;
+            
+            const filteredUsers = users.filter(user => {
+                const matchesSearch = !searchTerm || 
+                    user.skillsOffered.some(skill => skill.toLowerCase().includes(searchTerm)) ||
+                    user.skillsWanted.some(skill => skill.toLowerCase().includes(searchTerm));
+                
+                const matchesAvailability = !availabilityFilter || user.availability === availabilityFilter;
+                
+                return matchesSearch && matchesAvailability;
+            });
+            
+            document.getElementById('user-count').textContent = `${filteredUsers.length} users found`;
+            
+            // Update the grid with filtered users
+            const grid = document.getElementById('users-grid');
+            grid.innerHTML = '';
+            
+            filteredUsers.forEach(user => {
+                // Same rendering logic as renderUsers()
+                const card = document.createElement('div');
+                card.className = 'card hover:shadow-md transition-shadow';
+                card.innerHTML = `
+                    <div class="flex items-start justify-between mb-4">
+                        <div class="flex items-center space-x-3">
+                            <div class="w-12 h-12 bg-blue-100 rounded-full flex items-center justify-center">
+                                <i data-lucide="user" class="text-blue-600 w-6 h-6"></i>
+                            </div>
+                            <div>
+                                <h3 class="font-semibold text-gray-900">${user.name}</h3>
+                                <div class="flex items-center text-sm text-gray-600">
+                                    <i data-lucide="map-pin" class="w-4 h-4 mr-1"></i>
+                                    <span>${user.location}</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="flex items-center space-x-1">
+                            <i data-lucide="star" class="text-yellow-400 w-4 h-4" style="fill: currentColor;"></i>
+                            <span class="text-sm font-medium">${user.rating}</span>
+                        </div>
+                    </div>
+
+                    <div class="space-y-3">
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-1">Offers:</h4>
+                            <div class="flex flex-wrap gap-1">
+                                ${user.skillsOffered.map(skill => 
+                                    `<span class="px-2 py-1 bg-green-100 text-green-800 text-xs rounded-full">${skill}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <h4 class="text-sm font-medium text-gray-700 mb-1">Wants:</h4>
+                            <div class="flex flex-wrap gap-1">
+                                ${user.skillsWanted.map(skill => 
+                                    `<span class="px-2 py-1 bg-blue-100 text-blue-800 text-xs rounded-full">${skill}</span>`
+                                ).join('')}
+                            </div>
+                        </div>
+
+                        <div class="text-sm text-gray-600">
+                            <span class="font-medium">Available:</span> ${user.availability}
+                        </div>
+                    </div>
+
+                    <div class="mt-4 pt-4 border-t border-gray-200">
+                        <div class="flex space-x-2">
+                            <button onclick="viewProfile(${user.id})" class="btn-outline flex-1 text-center">
+                                View Profile
+                            </button>
+                            <button onclick="requestSwap(${user.id})" class="btn-primary flex-1">
+                                Request Swap
+                            </button>
+                        </div>
+                    </div>
+                `;
+                grid.appendChild(card);
+            });
+            
+            lucide.createIcons();
+        }
+
+        // Handle login
+        function handleLogin(event) {
+            event.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            if (email === 'admin@example.com' && password === 'admin123') {
+                currentUser = { name: 'Admin User', role: 'admin' };
+                alert('Welcome Admin!');
+                showPage('home');
+            } else if (email === 'user@example.com' && password === 'user123') {
+                currentUser = { name: 'Regular User', role: 'user' };
+                alert('Welcome User!');
+                showPage('home');
+            } else {
+                alert('Invalid email or password');
+            }
+        }
+
+        // Handle register
+        function handleRegister(event) {
+            event.preventDefault();
+            const name = document.getElementById('register-name').value;
+            const email = document.getElementById('register-email').value;
+            const password = document.getElementById('register-password').value;
+            
+            if (name && email && password) {
+                currentUser = { name: name, role: 'user' };
+                alert('Account created successfully!');
+                showPage('home');
+            } else {
+                alert('Please fill in all fields');
+            }
+        }
+
+        // View profile
+        function viewProfile(userId) {
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                alert(`Viewing profile of ${user.name}`);
+                // In a real app, this would navigate to a profile page
+            }
+        }
+
+        // Request swap
+        function requestSwap(userId) {
+            if (!currentUser) {
+                alert('Please log in to send a swap request');
+                showPage('login');
+                return;
+            }
+            
+            const user = users.find(u => u.id === userId);
+            if (user) {
+                alert(`Sending swap request to ${user.name}`);
+                // In a real app, this would open a swap request form
+            }
+        }
+
+        // Initialize the app
+        document.addEventListener('DOMContentLoaded', function() {
+            showPage('home');
+        });
+    </script>
+</body>
+</html> 
