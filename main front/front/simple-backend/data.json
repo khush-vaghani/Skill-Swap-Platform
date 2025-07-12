@@ -1,0 +1,47 @@
+{
+  "users": [
+    {
+      "id": 1,
+      "name": "Sarah Johnson",
+      "email": "sarah@example.com",
+      "password": "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj3bp.gSJm6",
+      "location": "New York, NY",
+      "availability": "Weekends",
+      "isPublic": true,
+      "rating": 4.8,
+      "skillsOffered": ["JavaScript", "React", "Node.js"],
+      "skillsWanted": ["Python", "Machine Learning"]
+    },
+    {
+      "id": 2,
+      "name": "Mike Chen",
+      "email": "mike@example.com",
+      "password": "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj3bp.gSJm6",
+      "location": "San Francisco, CA",
+      "availability": "Evenings",
+      "isPublic": true,
+      "rating": 4.5,
+      "skillsOffered": ["Python", "Data Analysis", "SQL"],
+      "skillsWanted": ["JavaScript", "Web Development"]
+    },
+    {
+      "id": 3,
+      "name": "Emily Davis",
+      "email": "emily@example.com",
+      "password": "$2a$12$LQv3c1yqBWVHxkd0LHAkCOYz6TtxMQJqhN8/LewdBPj3bp.gSJm6",
+      "location": "Austin, TX",
+      "availability": "Weekdays",
+      "isPublic": true,
+      "rating": 4.9,
+      "skillsOffered": ["Graphic Design", "Photoshop", "Illustrator"],
+      "skillsWanted": ["JavaScript", "React"]
+    }
+  ],
+  "skills": [
+    "JavaScript", "Python", "React", "Node.js", "SQL", "Graphic Design",
+    "Photoshop", "Illustrator", "Spanish", "Marketing", "Content Writing",
+    "Data Analysis", "Machine Learning", "Web Development", "Data Science",
+    "UI/UX Design", "Video Editing", "Photography", "Cooking", "Fitness Training"
+  ],
+  "swapRequests": []
+} 
